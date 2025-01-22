@@ -13,7 +13,7 @@ services:
       - "/etc/timezone:/etc/timezone:ro"
     environment:
      TZ: "America/Toronto"
-     MQTT_SERVER: '192.168.0.1886'
+     MQTT_SERVER: '192.168.0.186'
      MQTT_PORT: 1883
      MQTT_PATH: 'webhook/'
     logging:
