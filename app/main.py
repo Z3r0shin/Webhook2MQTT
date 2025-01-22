@@ -62,11 +62,6 @@ def workit(params):
             message_info = client.publish(mqtt_path, json.dumps(params), qos=1, retain=True)
         except Exception as publish_error:
             logger.error(f"Error while publishing message: {publish_error}")
-            
-        if message_info == mqtt.MQTT_ERR_SUCCESS:
-            logger.info("Message queued successfully")
-        elif message_info:
-            logger.error(f"Message failed with return code: {message_info.rc}")
         logger.info("Message published successfully")
         
         # Disconnect
