@@ -21,11 +21,11 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 # -------------Output Logger
 
-mqtt_host = os.getenv("MQTT_HOST", "192.168.0.136")
+mqtt_host = os.getenv("MQTT_HOST", "127.0.0.1")
 
 mqtt_port = os.getenv("MQTT_PORT", "1883")
 
-mqtt_path = os.getenv("MQTT_PATH", "webhook")
+mqtt_path = os.getenv("MQTT_PATH", "webhook/")
 
 mqtt_user = os.getenv("MQTT_USER")
 
@@ -45,7 +45,7 @@ def workit(params):
     if mqtt_user and mqtt_pass:
         logger.debug(f"MQTT user and pass set, enabling authentication")
         client.username_pw_set(mqtt_user, mqtt_pass)
-    client.connect(mqtt_server, int(mqtt_port), 60)
+    client.connect(mqtt_host, int(mqtt_port), 60)
     client.publish(mqtt_path, json.dumps(params), qos=2, retain=True)
     client.disconnect()
 
