@@ -3,9 +3,9 @@ services:
   webhook2mqtt:
     build: .
     restart: always
-    network_mode: "host"
-#    networks:
-#      - webhook2mqtt_default
+#    network_mode: "host"
+    networks:
+      - webhook2mqtt_default
 # adapt to your needs
     ports:
       - "127.0.0.1:1883:1357"
@@ -30,13 +30,6 @@ services:
     logging:
       driver: syslog
     command: gunicorn -w 4 -b 0.0.0.0:1357 main:app
-#networks:
-#  webhook2mqtt_default:
-#    external: true
-
-
-
-#networks:
-#  traefik_proxy:
-#    name: traefik
-#    external: true
+networks:
+  webhook2mqtt_default:
+    external: true
