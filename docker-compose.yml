@@ -18,7 +18,7 @@ services:
      TZ: "America/Toronto"
      MQTT_SERVER: '192.168.0.186'
      MQTT_PORT: 1883
-     MQTT_USER: 'mqtt'
+     MQTT_USER: 'MQTT'
      MQTT_PASSWORD: 'D3u53414'
      MQTT_PATH: 'webhook/'
     logging:
