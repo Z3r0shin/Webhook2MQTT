@@ -46,7 +46,7 @@ def workit(params):
 
         # Set username/password if provided
         if mqtt_user and mqtt_pass:
-            logger.info("Setting MQTT username and password")
+            logger.info("Setting MQTT username ({mqtt_user}) and password ({mqtt_pass})")
             client.username_pw_set(mqtt_user, mqtt_pass)
 
         # Connect to the broker
