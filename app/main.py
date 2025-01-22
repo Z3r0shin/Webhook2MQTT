@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+OSEfrom flask import Flask, request, Response
 import threading
 import logging
 import paho.mqtt.client as mqtt
@@ -9,11 +9,11 @@ import os
 # -------------Output Logger
 # create logger
 logger = logging.getLogger("Webhook2MQTT")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.VERBOSE)
 
 # create console handler
 ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
+ch.setLevel(logging.VERBOSE)
 
 # create formatter and add it to the handlers
 formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
