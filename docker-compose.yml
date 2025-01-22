@@ -16,21 +16,6 @@ services:
      MQTT_SERVER: '192.168.0.1886'
      MQTT_PORT: 1883
      MQTT_PATH: 'webhook/'
-# example config for https with traefik
-#    networks:
-#      - traefik_proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.webhook2mqtt_router_http.entrypoints=web"
-      - "traefik.http.routers.webhook2mqtt_router_http.rule=Host(`netatmo.jru.me`)"
-#      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
-#      - "traefik.http.routers.webhook2mqtt_router_http.middlewares=https_redirect"
-      - "traefik.http.routers.webhook2mqtt_router.entrypoints=websecure"
-      - "traefik.http.routers.webhook2mqtt_router.rule=Host(`netatmo.jru.me`)"
-      - "traefik.http.routers.webhook2mqtt_router.tls=true"
-      - "traefik.http.routers.webhook2mqtt_router.tls.certresolver=my_certresolver"
-    restart: always
-# log to syslog | optional
     logging:
       driver: syslog
 
