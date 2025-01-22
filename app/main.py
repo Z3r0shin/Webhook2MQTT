@@ -53,8 +53,21 @@ def workit(params):
     params['timestamp'] = datetime.datetime.now().isoformat()
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
     client.connect(mqtt_server, mqtt_port, 60)
-    client.publish(mqtt_path, json.dumps(params),qos=0,retain=True)
+    client.publish(mqtt_path, json.dumps(params),qos=2,retain=True)
     client.disconnect()
+
+#def workit(params):
+#    logger.info("workit:")
+#    logger.info(params)
+#    params['timestamp'] = datetime.datetime.now().isoformat()
+
+#    try:
+#        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
+#        client.connect(mqtt_server, mqtt_port, 60)
+#        client.publish(mqtt_path, json.dumps(params), qos=0, retain=True)
+#        client.disconnect()
+#    except Exception as e:
+#        logger.error(f"Failed to publish to MQTT: {e}")
 
 @app.route('/', methods=['POST'])
 def respond():
