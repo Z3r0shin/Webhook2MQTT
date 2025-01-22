@@ -1,0 +1,26 @@
+name: Deploy Webhook2MQTT
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow when changes are pushed to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checks out your repository
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2  # Sets up Docker buildx for multi-platform builds
+
+      - name: Deploy with Docker Compose
+        run: |
+          docker-compose down
+          docker-compose up -d
+        env:  # Pass secrets as environment variables
+          MQTT_USER: ${{ secrets.MQTT_USER }}
+          MQTT_PASSWORD: ${{ secrets.MQTT_PASSWORD }}
+          MQTT_HOST: ${{ secrets.MQTT_HOST }}
