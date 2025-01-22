@@ -26,7 +26,7 @@ mqtt_host = os.getenv("MQTT_HOST", "127.0.0.1")
 mqtt_port = os.getenv("MQTT_PORT", "1883")
 mqtt_path = os.getenv("MQTT_PATH", "webhook")
 mqtt_user = os.getenv("MQTT_USER")
-mqtt_pass = os.getenv("MQTT_PASSWORD")
+mqtt_pass = os.getenv("MQTT_PASS")
 
 logger.info(f"Configured MQTT host: {mqtt_host}, Port: {mqtt_port}, Path: {mqtt_path}, User: {mqtt_user}")
 
