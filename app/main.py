@@ -4,78 +4,63 @@ import logging
 import paho.mqtt.client as mqtt
 import json
 import datetime
-
 import os
-#$env:MQTT_SERVER='192.168.176.6'
-#-------------Output Logger
+
+# -------------Output Logger
 # create logger
 logger = logging.getLogger("Webhook2MQTT")
-#logger.setLevel(logging.INFO)
 logger.setLevel(logging.INFO)
-# create console handler with a higher log level
+
+# create console handler
 ch = logging.StreamHandler()
-#ch.setLevel(logging.INFO)
 ch.setLevel(logging.INFO)
 
 # create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-#formatter = logging.Formatter('%(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 ch.setFormatter(formatter)
-# add the handlers to the logger
 logger.addHandler(ch)
-#-------------Output Logger
+# -------------Output Logger
 
-if 'MQTT_SERVER' in os.environ:
-    mqtt_server = os.environ['MQTT_SERVER']
-else:
-    logger.error("Please set environment-Variable for MQTT_SERVER")
-    os.exit()
-logger.info("set MQTT_SERVER to {}".format(mqtt_server))
+mqtt_host = os.getenv("MQTT_HOST", "127.0.0.1")
 
-if 'MQTT_PORT' in os.environ:
-    mqtt_port = int(os.environ['MQTT_PORT'])
-else:
-    mqtt_port = 1883
-logger.info("set MQTT_PORT to {}".format(mqtt_port))
+mqtt_port = os.getenv("MQTT_PORT", "1883")
 
-if 'MQTT_PATH' in os.environ:
-    mqtt_path = os.environ['MQTT_PATH']
-else:
-    mqtt_path = 'webhook'
-logger.info("set mqtt-path to '{}'".format(mqtt_path))
+mqtt_path = os.getenv("MQTT_PATH", "webhook")
 
+mqtt_user = os.getenv("MQTT_USER")
+
+mqtt_pass = os.getenv("MQTT_PASS")
+
+logger.info(f"Configured mqtt host {mqtt_host} with port {mqtt_port} ")
 
 app = Flask(__name__)
 
-#def workit(params):
-#    logger.info("workit:")
-#    logger.info(params) 
-#    params['timestamp'] = datetime.datetime.now().isoformat()
-#    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
-#    client.connect(mqtt_server, mqtt_port, 60)
-#    client.publish(mqtt_path, json.dumps(params),qos=2,retain=True)
-#    client.disconnect()
 
 def workit(params):
-    logger.info("workit:")
+    logger.info("Executing Worker:")
     logger.info(params)
-    params['timestamp'] = datetime.datetime.now().isoformat()
+    params["timestamp"] = datetime.datetime.now().isoformat()
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    # Set user/pass if set
+    if mqtt_user and mqtt_pass:
+        logger.debug(f"MQTT user and pass set, enabling authentication")
+        client.username_pw_set(mqtt_user, mqtt_pass)
+    client.connect(mqtt_host, int(mqtt_port), 60)
+    client.publish(mqtt_path, json.dumps(params), qos=0, retain=True)
+    client.disconnect()
 
-    try:
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
-        client.connect(mqtt_server, mqtt_port, 60)
-        client.publish(mqtt_path, json.dumps(params), qos=0, retain=True)
-        client.disconnect()
-    except Exception as e:
-        logger.error(f"Failed to publish to MQTT: {e}")
 
-@app.route('/', methods=['POST'])
+@app.route("/", methods=["POST"])
 def respond():
-    logger.info(request)
-    myparams=request.get_json()
+    logger.debug(request.headers)
+    myparams = request.get_json()
     x = threading.Thread(target=workit, args=(myparams,))
     x.start()
     return Response(status=200)
 
-#app.run (host = "0.0.0.0", port = 1357)
 
+if __name__ == "__main__":
+
+    bind_host = os.getenv("BIND_HOST", "127.0.0.1")
+    bind_port = os.getenv("BIND_PORT", 5050)
+    app.run(host=bind_host, port=bind_port)
