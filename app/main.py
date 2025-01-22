@@ -21,7 +21,7 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 # -------------Output Logger
 
-mqtt_host = os.getenv("MQTT_HOST", "192.168.0.136")
+mqtt_host = os.getenv("MQTT_SERVER", "192.168.0.136")
 
 mqtt_port = os.getenv("MQTT_PORT", "1883")
 
@@ -31,7 +31,7 @@ mqtt_user = os.getenv("MQTT_USER")
 
 mqtt_pass = os.getenv("MQTT_PASS")
 
-logger.info(f"Configured mqtt host {mqtt_host} with port {mqtt_port} ")
+logger.info(f"Configured mqtt host {mqtt_server} with port {mqtt_port} ")
 
 app = Flask(__name__)
 
