@@ -59,7 +59,7 @@ def workit(params):
         # Publish message
         logger.info(f"Publishing to topic {mqtt_path}")
         try:
-            message_info = client.publish(mqtt_path, json.dumps(params), qos=2, retain=True)
+            message_info = client.publish(mqtt_path, json.dumps(params), qos=1, retain=True)
             message_info.wait_for_publish()  # Ensure the message is sent before proceeding
         except Exception as publish_error:
             logger.error(f"Error while publishing message: {publish_error}")
