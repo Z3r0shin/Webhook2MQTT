@@ -18,6 +18,8 @@ services:
      MQTT_PATH: 'webhook/'
     logging:
       driver: syslog
+    command: gunicorn -w 4 -b 0.0.0.0:1357 main:app
+
 
 #networks:
 #  traefik_proxy:
