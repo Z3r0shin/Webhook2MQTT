@@ -42,11 +42,11 @@ def workit(params):
 
         # Initialize MQTT client
         logger.info("Initializing MQTT client")
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_id="Webhook2MQTT")
 
         # Set username/password if provided
         if mqtt_user and mqtt_pass:
-            logger.info("Setting MQTT username ({mqtt_user}) and password ({mqtt_pass})")
+            logger.info(f"Setting MQTT username ({mqtt_user}) and password ({mqtt_pass})")
             client.username_pw_set(mqtt_user, mqtt_pass)
 
         # Connect to the broker
@@ -60,15 +60,13 @@ def workit(params):
         logger.info(f"Publishing to topic {mqtt_path}")
         try:
             message_info = client.publish(mqtt_path, json.dumps(params), qos=1, retain=True)
-            message_info.wait_for_publish()  # Ensure the message is sent before proceeding
         except Exception as publish_error:
             logger.error(f"Error while publishing message: {publish_error}")
             
-        if message_info and message_info.rc == mqtt.MQTT_ERR_SUCCESS:
+        if message_info == mqtt.MQTT_ERR_SUCCESS:
             logger.info("Message queued successfully")
         elif message_info:
             logger.error(f"Message failed with return code: {message_info.rc}")
-        message_info.wait_for_publish()  # Wait until the message is published
         logger.info("Message published successfully")
         
         # Disconnect
