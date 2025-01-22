@@ -53,12 +53,15 @@ def workit(params):
         logger.info(f"Connecting to MQTT broker at {mqtt_host}:{mqtt_port}")
         client.connect(mqtt_host, int(mqtt_port), 60)
 
+        # Initialize message_info to prevent scope issues
+        message_info = None
+
         # Publish message
         logger.info(f"Publishing to topic {mqtt_path}")
         client.publish(mqtt_path, json.dumps(params), qos=2, retain=True)
-        if message_info.rc == mqtt.MQTT_ERR_SUCCESS:
+        if message_info and message_info.rc == mqtt.MQTT_ERR_SUCCESS:
             logger.info("Message queued successfully")
-        else:
+        elif message_info:
             logger.error(f"Message failed with return code: {message_info.rc}")
         message_info.wait_for_publish()  # Wait until the message is published
         logger.info("Message published successfully")
