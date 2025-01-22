@@ -19,8 +19,8 @@ services:
      MQTT_HOST: "${MQTT_HOST}"
      MQTT_PORT: 1883
      MQTT_USER: "${MQTT_USER}"
-     MQTT_PASSWORD: "${MQTT_PASSWORD}"
-     MQTT_PATH: 'webhook/'
+     MQTT_PASS: "${MQTT_PASS}"
+     MQTT_PATH: 'webhook'
     logging:
       driver: syslog
     command: gunicorn -w 4 -b 0.0.0.0:1357 main:app
