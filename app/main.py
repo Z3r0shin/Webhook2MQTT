@@ -64,5 +64,5 @@ def respond():
     x.start()
     return Response(status=200)
 
-#app.run (host = "localhost", port = 5050)
+app.run (host = "0.0.0.0", port = 1357)
 
