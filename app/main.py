@@ -24,7 +24,7 @@ logger.addHandler(ch)
 # Environment variables
 mqtt_host = os.getenv("MQTT_HOST", "127.0.0.1")
 mqtt_port = os.getenv("MQTT_PORT", "1883")
-mqtt_path = os.getenv("MQTT_PATH", "webhook/")
+mqtt_path = os.getenv("MQTT_PATH", "webhook")
 mqtt_user = os.getenv("MQTT_USER")
 mqtt_pass = os.getenv("MQTT_PASSWORD")
 
@@ -55,7 +55,7 @@ def workit(params):
 
         # Publish message
         logger.info(f"Publishing to topic {mqtt_path}")
-        client.publish(mqtt_path, json.dumps(params), qos=1, retain=True)
+        client.publish(mqtt_path, json.dumps(params), qos=2, retain=True)
 
         # Disconnect
         logger.info("Disconnecting MQTT client")
