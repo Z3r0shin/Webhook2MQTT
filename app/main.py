@@ -64,3 +64,5 @@ if __name__ == "__main__":
     bind_host = os.getenv("BIND_HOST", "127.0.0.1")
     bind_port = os.getenv("BIND_PORT", 5050)
     app.run(host=bind_host, port=bind_port)
+
+logger.info(f"MQTT Config: Host={mqtt_host}, Port={mqtt_port}, Path={mqtt_path}, User={mqtt_user}")
