@@ -5,9 +5,7 @@ services:
     restart: always
     #network_mode: "host"
     networks:
-      default:
-        external:
-          name: webhook2mqtt_default
+      - webhook2mqtt_default
 # adapt to your needs
     ports:
       - "127.0.0.1:1357:1357"
@@ -24,6 +22,10 @@ services:
     logging:
       driver: syslog
     command: gunicorn -w 4 -b 0.0.0.0:1357 main:app
+networks:
+  webhook2mqtt_default:
+    external: true
+
 
 
 #networks:
