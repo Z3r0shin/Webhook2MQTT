@@ -9,11 +9,11 @@ import os
 # -------------Output Logger
 # create logger
 logger = logging.getLogger("Webhook2MQTT")
-logger.setLevel(logging.VERBOSE)
+logger.setLevel(logging.DEBUG)
 
 # create console handler
 ch = logging.StreamHandler()
-ch.setLevel(logging.VERBOSE)
+ch.setLevel(logging.DEBUG)
 
 # create formatter and add it to the handlers
 formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
