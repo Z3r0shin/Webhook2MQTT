@@ -4,17 +4,18 @@ services:
     build: .
     restart: always
 # adapt to your needs
-#    ports:
-#      - "127.0.0.1:5058:80"
-#    dns_search: lan
+    ports:
+      - "127.0.0.1:1357:1357"
+      - "192.168.0.136:1357:1357"
+    dns_search: lan
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
     environment:
-     TZ: "Europe/Berlin"
-     MQTT_SERVER: 'home.jru.me'
+     TZ: "America/Toronto"
+     MQTT_SERVER: '192.168.0.1886'
      MQTT_PORT: 1883
-     MQTT_PATH: 'homeassistant/webhook'
+     MQTT_PATH: 'webhook/'
 # example config for https with traefik
 #    networks:
 #      - traefik_proxy
