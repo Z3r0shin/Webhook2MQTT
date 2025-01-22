@@ -3,7 +3,11 @@ services:
   webhook2mqtt:
     build: .
     restart: always
-    network_mode: "host"
+    #network_mode: "host"
+    networks:
+      default:
+        external:
+          name: webhook2mqtt_default
 # adapt to your needs
     ports:
       - "127.0.0.1:1357:1357"
